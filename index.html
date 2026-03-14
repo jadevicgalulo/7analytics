@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Jadevic Galulo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --clay:       #6E6E6E;
+      --terracotta: #3A3A3A;
+      --soil:       #444444;
+      --sand:       #E4E4E4;
+      --linen:      #F4F4F4;
+      --stone:      #ABABAB;
+      --moss:       #888888;
+      --bark:       #1A1A1A;
+      --cream:      #F8F8F8;
+      --shadow:     rgba(10,10,10,.10);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--bark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: .5;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5%;
+      background: rgba(248,248,248,.90);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(180,180,180,.25);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: var(--terracotta); letter-spacing: .02em; text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--soil);
+      font-size: .85rem; letter-spacing: .08em;
+      text-transform: uppercase; transition: color .3s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 0; height: 1px; background: var(--clay); transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--clay); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 5%; gap: 4rem; padding-top: 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; right: -8%; top: 15%;
+      width: 520px; height: 520px;
+      border-radius: 50% 40% 60% 45%;
+      background: radial-gradient(circle at 40% 40%, #E4E4E4 0%, #ABABAB 70%, transparent 100%);
+      opacity: .55; z-index: 0;
+    }
+    .hero-text { position: relative; z-index: 1; }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .78rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 1.4rem;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--bark); margin-bottom: .5rem;
+      opacity: 0; animation: fadeUp .8s .4s forwards;
+    }
+    .hero-name em { font-style: italic; color: var(--terracotta); }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300;
+      color: var(--stone); margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp .8s .55s forwards;
+    }
+    .hero-bio {
+      font-size: .95rem; color: var(--soil);
+      max-width: 480px; margin-bottom: 2.8rem;
+      opacity: 0; animation: fadeUp .8s .7s forwards;
+    }
+    .hero-cta {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp .8s .85s forwards;
+    }
+    .btn-primary {
+      background: var(--terracotta); color: var(--linen);
+      padding: .85rem 2.2rem; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background .3s, transform .2s; border-radius: 2px;
+    }
+    .btn-primary:hover { background: var(--soil); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--terracotta);
+      padding: .85rem 2.2rem; border: 1.5px solid var(--clay); cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background .3s, color .3s, transform .2s; border-radius: 2px;
+    }
+    .btn-outline:hover { background: var(--clay); color: var(--linen); transform: translateY(-2px); }
+
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; animation: fadeIn 1s .6s forwards;
+    }
+    .hero-img-wrap { position: relative; width: 380px; height: 460px; }
+    .hero-img-wrap::before {
+      content: '';
+      position: absolute; top: 20px; left: 20px;
+      width: 100%; height: 100%;
+      border: 1.5px solid var(--clay); border-radius: 4px; z-index: 0;
+    }
+    .hero-avatar {
+      position: relative; z-index: 1;
+      width: 100%; height: 100%; border-radius: 4px;
+      background: linear-gradient(145deg, #E4E4E4 0%, #ABABAB 50%, #3A3A3A 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem; color: rgba(255,255,255,.35);
+    }
+    .hero-status {
+      position: absolute; bottom: 3rem; left: 5%; right: 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 1; opacity: 0; animation: fadeIn .8s .95s forwards;
+    }
+    .status-pill {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .75rem; color: var(--stone);
+      border: 1px solid var(--sand); padding: .35rem 1rem;
+      border-radius: 20px; letter-spacing: .04em;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #888888; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .hero-scroll {
+      font-size: .72rem; color: var(--stone);
+      letter-spacing: .12em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .hero-scroll::after {
+      content: ''; width: 30px; height: 1px;
+      background: var(--stone); display: inline-block;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 7rem 5%; }
+    .section-label {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;
+    }
+    .section-label span {
+      font-size: .72rem; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--moss);
+    }
+    .section-label::before {
+      content: ''; display: block; width: 40px; height: 1px; background: var(--moss);
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 300; line-height: 1.2;
+      color: var(--bark); margin-bottom: 3.5rem;
+    }
+
+    /* ─── SKILLS ─── */
+    .skills { background: var(--linen); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+    .skill-group {
+      background: var(--cream); border-radius: 6px;
+      padding: 2rem 1.8rem;
+      border-bottom: 3px solid var(--clay);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .skill-group:hover { transform: translateY(-4px); box-shadow: 0 14px 40px var(--shadow); }
+    .skill-group-label {
+      font-size: .72rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--moss);
+      margin-bottom: 1.2rem; padding-bottom: .8rem;
+      border-bottom: 1px solid var(--sand);
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chip {
+      padding: .35rem .9rem;
+      background: var(--sand); color: var(--soil);
+      font-size: .78rem; border-radius: 20px;
+      border: 1px solid var(--stone);
+      transition: background .25s, color .25s, border-color .25s;
+    }
+    .chip:hover { background: var(--terracotta); color: var(--linen); border-color: var(--terracotta); }
+    .chip.strong { background: var(--terracotta); color: var(--linen); border-color: var(--terracotta); }
+    .skill-bar-row { display: flex; flex-direction: column; gap: 1rem; }
+    .bar-meta { display: flex; justify-content: space-between; margin-bottom: .3rem; }
+    .bar-name { font-size: .8rem; color: var(--soil); }
+    .bar-pct  { font-size: .75rem; color: var(--stone); }
+    .bar-track { height: 3px; background: var(--sand); border-radius: 2px; overflow: hidden; }
+    .bar-fill {
+      height: 100%; background: var(--terracotta);
+      border-radius: 2px; width: 0;
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ─── TASKS SECTION ─── */
+    .tasks { background: var(--cream); }
+
+    /* Tab nav */
+    .task-tabs {
+      display: flex; gap: 0;
+      border-bottom: 2px solid var(--sand);
+      margin-bottom: 3rem;
+    }
+    .tab-btn {
+      padding: .8rem 2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--stone);
+      background: none; border: none; cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color .25s, border-color .25s;
+    }
+    .tab-btn:hover { color: var(--terracotta); }
+    .tab-btn.active { color: var(--bark); border-bottom-color: var(--bark); font-weight: 500; }
+
+    /* Tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Task grid */
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    /* Task card */
+    .task-card {
+      background: var(--linen);
+      border: 1px solid var(--sand);
+      border-radius: 8px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .task-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px var(--shadow); }
+
+    /* Screenshot area */
+    .task-screenshot {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--sand);
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .task-screenshot img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .4s;
+    }
+    .task-card:hover .task-screenshot img { transform: scale(1.04); }
+
+    /* Placeholder when no image is set */
+    .task-screenshot .placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .5rem;
+      background: linear-gradient(135deg, var(--sand), var(--stone));
+      color: var(--cream); font-size: 2.5rem;
+    }
+    .task-screenshot .placeholder span {
+      font-size: .7rem; letter-spacing: .12em;
+      text-transform: uppercase; opacity: .7;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Lightbox overlay */
+    .task-screenshot::after {
+      content: '⤢ View';
+      position: absolute; inset: 0;
+      background: rgba(26,26,26,.55);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--linen); opacity: 0;
+      transition: opacity .25s;
+    }
+    .task-screenshot:hover::after { opacity: 1; }
+
+    /* Card body */
+    .task-body { padding: 1.6rem; flex: 1; display: flex; flex-direction: column; gap: .8rem; }
+
+    .task-number {
+      font-size: .68rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--moss);
+    }
+
+    .task-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600;
+      color: var(--bark); line-height: 1.3;
+    }
+
+    .task-desc {
+      font-size: .86rem; color: var(--soil); line-height: 1.7;
+      flex: 1;
+    }
+
+    .task-tools { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+    .tool-tag {
+      font-size: .7rem; padding: .2rem .6rem;
+      background: var(--sand); color: var(--soil);
+      border-radius: 3px; border: 1px solid var(--stone);
+    }
+
+    /* Card footer */
+    .task-footer {
+      padding: 1rem 1.6rem;
+      border-top: 1px solid var(--sand);
+      display: flex; gap: 1rem; align-items: center;
+    }
+
+    .task-download {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--terracotta); color: var(--linen);
+      padding: .55rem 1.2rem; border-radius: 2px;
+      font-size: .76rem; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background .25s, transform .2s;
+    }
+    .task-download:hover { background: var(--soil); transform: translateY(-1px); }
+
+    .task-preview {
+      display: inline-flex; align-items: center; gap: .4rem;
+      color: var(--clay); font-size: .76rem; letter-spacing: .08em;
+      text-transform: uppercase; text-decoration: none;
+      border-bottom: 1px solid var(--stone); padding-bottom: 1px;
+      transition: color .2s, border-color .2s;
+    }
+    .task-preview:hover { color: var(--terracotta); border-color: var(--terracotta); }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(10,10,10,.88); z-index: 9999;
+      align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 85vh;
+      border-radius: 4px; box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--linen); border: none; cursor: pointer;
+      font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .lightbox-close:hover { background: var(--sand); }
+
+    /* ─── ABOUT ─── */
+    .about { background: var(--bark); color: var(--sand); }
+    .about .section-title { color: var(--sand); }
+    .about .section-label span { color: var(--stone); }
+    .about .section-label::before { background: var(--stone); }
+    .about-grid {
+      display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-bio p { font-size: .93rem; color: var(--stone); line-height: 1.85; margin-bottom: 1.2rem; }
+    .about-bio strong { color: var(--sand); font-weight: 400; }
+    .about-details { display: flex; flex-direction: column; gap: 1.8rem; }
+    .detail-card {
+      border: 1px solid rgba(180,180,180,.2);
+      border-radius: 6px; padding: 1.6rem;
+      background: rgba(255,255,255,.04);
+    }
+    .detail-card-label {
+      font-size: .68rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--clay); margin-bottom: 1rem;
+    }
+    .detail-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; font-size: 1.15rem;
+      color: var(--linen); margin-bottom: .25rem;
+    }
+    .detail-card p { font-size: .85rem; color: var(--stone); }
+    .detail-meta { display: flex; gap: .6rem; margin-top: .8rem; flex-wrap: wrap; }
+    .detail-badge {
+      font-size: .68rem; padding: .25rem .65rem;
+      background: rgba(180,180,180,.15);
+      color: var(--clay); border: 1px solid rgba(180,180,180,.25);
+      border-radius: 3px;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact { background: var(--linen); }
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: start;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1.4rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .5rem; }
+    .form-group label {
+      font-size: .72rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--moss);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: var(--cream); border: 1px solid var(--stone);
+      border-radius: 3px; padding: .9rem 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; color: var(--bark); outline: none;
+      transition: border-color .3s, box-shadow .3s; resize: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--clay);
+      box-shadow: 0 0 0 3px rgba(10,10,10,.08);
+    }
+    .form-group textarea { min-height: 120px; }
+    .contact-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300;
+      color: var(--bark); margin-bottom: 1rem;
+    }
+    .contact-info p { font-size: .9rem; color: var(--soil); margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none; color: var(--soil);
+      font-size: .9rem; transition: color .3s;
+    }
+    .contact-link:hover { color: var(--terracotta); }
+    .contact-icon {
+      width: 40px; height: 40px;
+      background: var(--sand); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .88rem; transition: background .3s; color: var(--soil);
+      border: 1px solid var(--stone);
+    }
+    .contact-link:hover .contact-icon { background: var(--clay); color: var(--linen); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bark); color: var(--stone);
+      text-align: center; padding: 2.5rem 5%;
+      font-size: .8rem; letter-spacing: .06em;
+    }
+    footer span { color: var(--clay); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s, transform .7s;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-bio { margin: 0 auto 2.8rem; }
+      .hero-cta { justify-content: center; }
+      .hero-visual, .hero-status { display: none; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .task-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="Task screenshot" onclick="event.stopPropagation()" />
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">J.Galulo</a>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#tasks">Tasks</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <span class="hero-eyebrow">3rd Year · Computer Science · Class of 2026</span>
+      <h1 class="hero-name">Jadevic <em>Galulo</em></h1>
+      <p class="hero-title">CS Student & Aspiring Full-Stack Developer</p>
+      <p class="hero-bio">
+        Hi, I'm Jadevic Galulo — a 3rd year Computer Science student who's genuinely passionate about coding and the craft behind it. I enjoy breaking down complex problems and building solutions that actually work. Outside of school, you'll find me gaming, exploring new tech, or finding creative ways to look at the world.
+      </p>
+      <div class="hero-cta">
+        <a href="#tasks" class="btn-primary">View My Tasks</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">
+        <div class="hero-avatar">✦</div>
+      </div>
+    </div>
+    <div class="hero-status">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        Looking for OJT · 2025
+      </div>
+      <div class="hero-scroll">Scroll to explore</div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills" id="skills">
+    <div class="section-label"><span>What I Know</span></div>
+    <h2 class="section-title reveal">Skills &amp; <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--stone)">Tools</em></h2>
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-label">Languages</div>
+        <div class="skill-chips">
+          <span class="chip strong">Python</span>
+          <span class="chip strong">Java</span>
+          <span class="chip strong">C++</span>
+          <span class="chip strong">HTML</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Bash</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-label">Frameworks & Tools</div>
+        <div class="skill-chips">
+          <span class="chip strong">Git</span>
+          <span class="chip">React</span>
+          <span class="chip">Node.js</span>
+          <span class="chip">Spring Boot</span>
+          <span class="chip">Flask</span>
+          <span class="chip">REST APIs</span>
+          <span class="chip">Docker</span>
+          <span class="chip">Linux</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-label">Core CS Concepts</div>
+        <div class="skill-bar-row">
+          <div>
+            <div class="bar-meta"><span class="bar-name">Data Structures & Algorithms</span><span class="bar-pct">90%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-w="90"></div></div>
+          </div>
+          <div>
+            <div class="bar-meta"><span class="bar-name">OOP & Design Patterns</span><span class="bar-pct">85%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-w="85"></div></div>
+          </div>
+          <div>
+            <div class="bar-meta"><span class="bar-name">Database Systems</span><span class="bar-pct">78%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-w="78"></div></div>
+          </div>
+          <div>
+            <div class="bar-meta"><span class="bar-name">Operating Systems</span><span class="bar-pct">72%</span></div>
+            <div class="bar-track"><div class="bar-fill" data-w="72"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-label">Currently Learning</div>
+        <div class="skill-chips">
+          <span class="chip">Machine Learning</span>
+          <span class="chip">TensorFlow</span>
+          <span class="chip">AWS</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">GraphQL</span>
+        </div>
+        <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--sand);">
+          <p style="font-size:.78rem;color:var(--stone);line-height:1.7;">
+            Active courses: Machine Learning · Advanced Algorithms · Systems Programming
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+<!-- ══════════════════════════════════════════
+     TASKS SECTION
+     ══════════════════════════════════════════ -->
+<section class="tasks" id="tasks">
+  <div class="section-label"><span>Course Work</span></div>
+  <h2 class="section-title reveal">Practice &amp; <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--stone)">Midterm Tasks</em></h2>
+
+  <!-- Tab buttons -->
+  <div class="task-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('practice', this)">Practice Tasks</button>
+    <button class="tab-btn" onclick="switchTab('midterm', this)">Midterm Tasks</button>
+  </div>
+
+  <!-- ── PRACTICE TASKS ── -->
+  <div class="tab-panel active" id="tab-practice">
+    <div class="task-grid">
+
+      <!-- PRACTICE TASK 1 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/syp2Iy8.png" alt="Practice Task 1 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Practice Task 01</div>
+          <div class="task-title">Data Cleaning and Preparation</div>
+          <p class="task-desc">
+            Write a short description of what this task was about, what you learned, and what you built or solved. Keep it 2–3 sentences.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Tool 2</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <a href="https://drive.google.com/uc?export=download&id=17Wa5e1cE2-ANovDoCSUk4E6c8-0gYuCR" class="task-download" target="_blank">⬇ Download File</a>
+        </div>
+      </div>
+
+      <!-- PRACTICE TASK 2 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/r7ahBBm.png" alt="Practice Task 2 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Practice Task 02</div>
+          <div class="task-title">Demo Data Analysis</div>
+          <p class="task-desc">
+            Write a short description of what this task was about, what you learned, and what you built or solved. Keep it 2–3 sentences.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Tool 2</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <a href="https://drive.google.com/uc?export=download&id=1qfDZRjfus23cWPBmm1tV-5luU9pag3tk" class="task-download" target="_blank">⬇ Download File</a>
+        </div>
+      </div>
+
+      <!-- PRACTICE TASK 3 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/LeEUtG4.png" alt="Practice Task 3 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Practice Task 03</div>
+          <div class="task-title">Advanced Excel Functions</div>
+          <p class="task-desc">
+            Write a short description of what this task was about, what you learned, and what you built or solved. Keep it 2–3 sentences.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Tool 2</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <a href="https://drive.google.com/uc?export=download&id=1qWAjqdPPkMxqNs4oLmkqZC_qDXbmKP7k" class="task-download" target="_blank">⬇ Download File</a>
+        </div>
+      </div>
+
+      <!-- PRACTICE TASK 4 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/qg1oXqU.png" alt="Practice Task 4 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Practice Task 04</div>
+          <div class="task-title">Data Cleaning and Prep using Power Query</div>
+          <p class="task-desc">
+            Write a short description of what this task was about, what you learned, and what you built or solved. Keep it 2–3 sentences.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Power Query</span>
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <!--
+            NOTE: Task 4 uses a Drive FOLDER link, not a file link.
+            Drive folders can't be auto-downloaded — this opens the folder instead.
+            To fix: share the individual file and replace the link below.
+          -->
+          <a href="https://drive.google.com/drive/folders/1lgL4LWsNIe_IR_jO05kUEyLMF3kjcvtJ" class="task-download" target="_blank">⬇ Open in Drive</a>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end practice tab -->
+
+  <!-- ── MIDTERM TASKS ── -->
+  <div class="tab-panel" id="tab-midterm">
+    <div class="task-grid">
+
+      <!-- MIDTERM TASK 1 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/ukZmW4a.png" alt="Midterm Task 1 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Midterm Task 01</div>
+          <div class="task-title">Data Cleaning and Modeling</div>
+          <p class="task-desc">
+            Write a short description of what this midterm task required, the approach you took, and what the output was. 2–3 sentences is enough.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Power Query</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <a href="https://drive.google.com/uc?export=download&id=1_Kp9zl93iT0dxMsEl6VjV3x16DrOiJ8U" class="task-download" target="_blank">⬇ Download File</a>
+        </div>
+      </div>
+
+      <!-- MIDTERM TASK 2 -->
+      <div class="task-card reveal">
+        <div class="task-screenshot" onclick="openLightbox(this)">
+          <img src="https://i.imgur.com/CjejlPj.png" alt="Midterm Task 2 Screenshot" />
+        </div>
+        <div class="task-body">
+          <div class="task-number">Midterm Task 02</div>
+          <div class="task-title">Data Preparation and Modeling using Power Query</div>
+          <p class="task-desc">
+            Write a short description of what this midterm task required, the approach you took, and what the output was. 2–3 sentences is enough.
+          </p>
+          <div class="task-tools">
+            <span class="tool-tag">Power Query</span>
+            <span class="tool-tag">Excel</span>
+            <span class="tool-tag">Tool 3</span>
+          </div>
+        </div>
+        <div class="task-footer">
+          <!--
+            NOTE: Midterm Task 2 also uses a folder link.
+            To enable direct download, share the individual file instead.
+          -->
+          <a href="https://drive.google.com/drive/folders/1pEBOczsbrWxcwKNdhhmv2t6AYPAjYoC3" class="task-download" target="_blank">⬇ Open in Drive</a>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end midterm tab -->
+
+</section>
+
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-label"><span>Who I Am</span></div>
+    <h2 class="section-title">Rooted in curiosity, <em style="font-style:italic;color:var(--stone)">driven by code</em></h2>
+    <div class="about-grid">
+      <div class="about-bio reveal">
+        <p>Hey, I'm Jadevic — a <strong>3rd-year Computer Science student</strong> with a passion for building things that actually work. I care about writing clean, readable code and understanding the systems underneath the surface.</p>
+        <p>I've completed coursework in <strong>data structures, algorithms, operating systems, and databases</strong>, and I'm currently diving deep into machine learning and distributed systems.</p>
+        <p>Outside of class, I enjoy gaming, exploring new technologies, and finding creative ways to approach problems. I'm actively looking for an <strong>OJT opportunity</strong> to put my skills to use in a real environment.</p>
+      </div>
+      <div class="about-details reveal">
+        <div class="detail-card">
+          <div class="detail-card-label">Education</div>
+          <h4>B.S. Computer Science</h4>
+          <p>3rd Year · Class of 2026</p>
+          <div class="detail-meta">
+            <span class="detail-badge">Class of 2026</span>
+            <span class="detail-badge">3rd Year</span>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">Relevant Coursework</div>
+          <div style="display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.2rem;">
+            <span class="detail-badge">Data Structures</span>
+            <span class="detail-badge">Algorithms</span>
+            <span class="detail-badge">Operating Systems</span>
+            <span class="detail-badge">Database Systems</span>
+            <span class="detail-badge">Software Engineering</span>
+            <span class="detail-badge">Computer Networks</span>
+            <span class="detail-badge">Machine Learning</span>
+            <span class="detail-badge">Discrete Math</span>
+          </div>
+        </div>
+        <div class="detail-card">
+          <div class="detail-card-label">Interests</div>
+          <h4>Gaming & Tech</h4>
+          <p style="margin-bottom:.6rem;">Passionate about the gaming world and how technology shapes interactive experiences.</p>
+          <h4>Creative Problem-Solving</h4>
+          <p>Enjoys tackling challenges from unexpected angles — where logic meets creativity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-label"><span>Get In Touch</span></div>
+    <h2 class="section-title reveal">Let's build something <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--stone)">worth remembering</em></h2>
+    <div class="contact-inner">
+      <div class="contact-form reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@example.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <input type="text" placeholder="OJT · Internship · Collaboration · Other" />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea placeholder="Hi Jadevic, I'd like to..."></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start;">Send Message</button>
+      </div>
+      <div class="contact-info reveal">
+        <h3>Open to opportunities & collaborations</h3>
+        <p>Looking for an OJT or internship opportunity. Whether you have a role, want to collaborate on a project, or just want to chat about tech — I'd love to hear from you.</p>
+        <div class="contact-links">
+          <a href="mailto:jadevicgalulo.work@gmail.com" class="contact-link">
+            <div class="contact-icon">✉</div>
+            jadevicgalulo.work@gmail.com
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-icon">in</div>
+            linkedin.com/in/jadevicgalulo
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-icon">gh</div>
+            github.com/jadevicgalulo
+          </a>
+          <a href="#" class="contact-link">
+            <div class="contact-icon">↓</div>
+            Download Résumé (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Jadevic Galulo — Built with <span>✦</span> intention &amp; too much coffee</p>
+  </footer>
+
+  <script>
+    /* ── Tab switching ── */
+    function switchTab(name, btn) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    /* ── Lightbox ── */
+    function openLightbox(el) {
+      const img = el.querySelector('img');
+      if (!img) return; // no image yet — do nothing
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* ── Scroll reveal ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 0.07 + 's';
+      observer.observe(el);
+    });
+
+    /* ── Skill bars ── */
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skill-group').forEach(g => barObserver.observe(g));
+  </script>
+</body>
+</html>
